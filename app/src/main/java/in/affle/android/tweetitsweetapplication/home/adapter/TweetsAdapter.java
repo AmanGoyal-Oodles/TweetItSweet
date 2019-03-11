@@ -22,6 +22,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.TweetsHold
     public TweetsAdapter(@LayoutRes int layoutId, HomeViewModel viewModel) {
         mLayoutId = layoutId;
         mViewModel = viewModel;
+        mTweetList = new ArrayList<>();
     }
 
     private int getLayoutIdForPosition(int position) {

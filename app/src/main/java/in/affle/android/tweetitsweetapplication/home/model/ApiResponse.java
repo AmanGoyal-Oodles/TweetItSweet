@@ -1,7 +1,5 @@
 package in.affle.android.tweetitsweetapplication.home.model;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import androidx.databinding.BaseObservable;
@@ -18,46 +16,29 @@ public class ApiResponse extends BaseObservable {
 
     private SearchTweetApiResponse mSearchTweetApiResponse;
     private MutableLiveData<ArrayList<Statuses>> tweetData = new MutableLiveData<>();
-    private ArrayList<Statuses> tweetList = new ArrayList<>();
 
     public MutableLiveData<ArrayList<Statuses>> getTweetData() {
         return tweetData;
     }
 
-    public void setTweetList() {
-        tweetList.clear();
-        tweetList.add(new Statuses("My Best Tweet", 50, 473));
-        tweetList.add(new Statuses("My Best Tweet", 50, 473));
-        tweetList.add(new Statuses("My Best Tweet", 50, 473));
-        tweetList.add(new Statuses("My Best Tweet", 50, 473));
-        tweetList.add(new Statuses("My Best Tweet", 50, 473));
-        tweetData.setValue(tweetList);
-    }
-
     public void fetchTweets(String authorization, String query) {
-        //String q = "nasa";
         String resultType = "recent";
         ServerClientApi.getApi().getTweets(authorization, query, resultType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(new Function<Throwable, Response<Object>>() {
+                .onErrorReturn(new Function<Throwable, Response<SearchTweetApiResponse>>() {
                     @Override
-                    public Response<Object> apply(Throwable throwable) {
-                        setTweetList();
+                    public Response<SearchTweetApiResponse> apply(Throwable throwable) {
                         return null;
                     }
-                }).subscribe(new DisposableObserver<Response<Object>>() {
+                }).subscribe(new DisposableObserver<Response<SearchTweetApiResponse>>() {
             @Override
-            public void onNext(Response<Object> response) {
+            public void onNext(Response<SearchTweetApiResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    String jsonData = response.body().toString();
-                    Log.d("Json Data", jsonData);
-                    SearchTweetApiResponse searchTweetApiResponse = ServerClientApi.buildGsonConverter().fromJson(jsonData, SearchTweetApiResponse.class);
-                    Log.d("Json Data Object", searchTweetApiResponse + "");
-                    //if (response.body().getSearchMetaData() != null && response.body().getStatuses() != null) {
-                    //tweetData.setValue(response.body().getStatuses());
-                    //searchMetaData = response.body();
-                    //}
+                    if (response.body().getSearchMetaData() != null && response.body().getStatuses() != null) {
+                        tweetData.setValue(response.body().getStatuses());
+                        mSearchTweetApiResponse = response.body();
+                    }
                 }
             }
 

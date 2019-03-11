@@ -1,8 +1,10 @@
 package in.affle.android.tweetitsweetapplication.home.model;
 
+import java.util.Date;
+
 public class Statuses {
 
-    //private DateTime created_at;
+    private Date created_at;
     private long id;
     private String id_str;
     private String text;
@@ -34,13 +36,13 @@ public class Statuses {
         this.favorite_count = favorite_count;
     }
 
-    /*public DateTime getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(DateTime created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
-    }*/
+    }
 
     public long getId() {
         return id;

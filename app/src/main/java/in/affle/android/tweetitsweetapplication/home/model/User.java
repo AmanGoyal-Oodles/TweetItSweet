@@ -1,5 +1,7 @@
 package in.affle.android.tweetitsweetapplication.home.model;
 
+import java.util.Date;
+
 public class User {
 
     private long id;
@@ -14,7 +16,7 @@ public class User {
     private int followers_count;
     private int friends_count;
     private int listed_count;
-    //private Date created_at;
+    private Date created_at;
     private int favourites_count;
     private Object utc_offset;
     private Object time_zone;
@@ -134,14 +136,13 @@ public class User {
         this.listed_count = listed_count;
     }
 
-    /*public Date getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
-*/
     public int getFavourites_count() {
         return favourites_count;
     }
