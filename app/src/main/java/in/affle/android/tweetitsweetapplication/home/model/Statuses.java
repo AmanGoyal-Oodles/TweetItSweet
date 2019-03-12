@@ -10,7 +10,7 @@ public class Statuses {
     private String text;
     private boolean truncated;
     private Object entities;
-    private Object metadata;
+    private MetaData metadata;
     private String source;
     private Object in_reply_to_status_id;
     private Object in_reply_to_status_id_str;
@@ -84,11 +84,11 @@ public class Statuses {
         this.entities = entities;
     }
 
-    public Object getMetadata() {
+    public MetaData getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(Object metadata) {
+    public void setMetadata(MetaData metadata) {
         this.metadata = metadata;
     }
 
@@ -196,16 +196,16 @@ public class Statuses {
         this.is_quote_status = is_quote_status;
     }
 
-    public int getRetweet_count() {
-        return retweet_count;
+    public String getRetweet_count() {
+        return retweet_count + "";
     }
 
     public void setRetweet_count(int retweet_count) {
         this.retweet_count = retweet_count;
     }
 
-    public int getFavorite_count() {
-        return favorite_count;
+    public String getFavorite_count() {
+        return favorite_count + "";
     }
 
     public void setFavorite_count(int favorite_count) {

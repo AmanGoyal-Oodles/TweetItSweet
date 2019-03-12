@@ -22,8 +22,9 @@ public class ApiResponse extends BaseObservable {
     }
 
     public void fetchTweets(String authorization, String query) {
-        String resultType = "recent";
-        ServerClientApi.getApi().getTweets(authorization, query, resultType)
+        String resultType = "mixed";
+        int count = 100;
+        ServerClientApi.getApi().getTweets(authorization, query, resultType, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorReturn(new Function<Throwable, Response<SearchTweetApiResponse>>() {

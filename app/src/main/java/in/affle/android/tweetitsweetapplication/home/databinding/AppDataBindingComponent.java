@@ -32,6 +32,8 @@ public class AppDataBindingComponent implements DataBindingComponent {
                 Glide.with(imageView).load(imageUrl).into(imageView);
             }*/
             RequestOptions options = new RequestOptions();
+            options.error(R.mipmap.ic_app_logo);
+            options.circleCrop();
             if (imageView.getVisibility() == View.VISIBLE) {
                 options.placeholder(imageView.getDrawable().mutate());
             }
@@ -43,7 +45,7 @@ public class AppDataBindingComponent implements DataBindingComponent {
         } else {
             //   imageView.setTag(R.id.image_url, null);
             Glide.with(imageView)
-                    .load(R.mipmap.ic_launcher)
+                    .load(R.mipmap.ic_app_logo)
                     .into(imageView);
         }
     }

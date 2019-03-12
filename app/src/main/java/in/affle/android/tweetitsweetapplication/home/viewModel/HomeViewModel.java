@@ -12,6 +12,8 @@ import in.affle.android.tweetitsweetapplication.R;
 import in.affle.android.tweetitsweetapplication.home.adapter.TweetsAdapter;
 import in.affle.android.tweetitsweetapplication.home.model.ApiResponse;
 import in.affle.android.tweetitsweetapplication.home.model.Statuses;
+import in.affle.android.tweetitsweetapplication.utils.constants.AppConstants;
+import in.affle.android.tweetitsweetapplication.utils.constants.AuthConstants;
 
 public class HomeViewModel extends ViewModel {
 
@@ -29,14 +31,13 @@ public class HomeViewModel extends ViewModel {
 
     public void fetchTweetList(String query) {
         long timestamp = System.currentTimeMillis() / 1000;
-        String authorization = "OAuth oauth_consumer_key=\"Ql5CsdpJgjUnkwUafmfm0oWlq\"" +
-                ",oauth_token=\"1103961594202148865-s6IF4CAgHF3fmOHMGXbgVCVgokR3Jo\"" +
-                ",oauth_signature_method=\"HMAC-SHA1\"" +
-                ",oauth_timestamp=\"" + timestamp + "\"" +
-                ",oauth_nonce=\"TbuuG453pJx\"" +
-                ",oauth_version=\"1.0\"" +
-                ",oauth_signature=\"dcF0iybUCsyOAJrA9R%2F%2B9D%2FQ60k%3D\"";
-
+        String authorization = "OAuth " + AppConstants.KEY_CONSUMER_KEY + "=\"" + AuthConstants.CONSUMER_KEY + "\"" +
+                "," + AppConstants.KEY_ACCESS_TOKEN + "=\"" + AuthConstants.ACCESS_TOKEN + "\"" +
+                "," + AppConstants.KEY_SIGNATURE_METHOD + "=\"" + AuthConstants.SIGNATURE_METHOD + "\"" +
+                "," + AppConstants.KEY_TIMESTAMP + "=\"" + timestamp + "\"" +
+                "," + AppConstants.KEY_OAUTH_NONCE + "=\"" + AuthConstants.OAUTH_NONCE + "\"" +
+                "," + AppConstants.KEY_OAUTH_VERSION + "=\"" + AuthConstants.OAUTH_VERSION + "\"" +
+                "," + AppConstants.KEY_OAUTH_SIGNATURE + "=\"" + AuthConstants.OAUTH_SIGNATURE + "\"";
         mApiResponse.fetchTweets(authorization, query);
     }
 
@@ -51,6 +52,7 @@ public class HomeViewModel extends ViewModel {
     public void onSearchKeyTextChanged(CharSequence s, int start, int before, int count) {
         String searchKey = s.toString();
         if (searchKey.trim().length() > 2) {
+            loading.set(View.VISIBLE);
             fetchTweetList(searchKey);
         }
         Log.d("hello", s.toString());
@@ -67,6 +69,16 @@ public class HomeViewModel extends ViewModel {
             return mApiResponse.getTweetData().getValue().get(index);
         }
         return null;
+    }
+
+    //logic for sort list by popularity
+    private void sortListByPopularity(ArrayList<Statuses> tweetList) {
+        ArrayList<Statuses> list = new ArrayList<>();
+        for (Statuses tweet : tweetList) {
+            if (tweet.getMetadata().getResult_type().equalsIgnoreCase("popular")) {
+                list.add(tweet);
+            }
+        }
     }
 
 }

@@ -28,7 +28,6 @@ public class HomeActivity extends AppCompatActivity {
         setupBindings(savedInstanceState);
     }
 
-
     private void setupBindings(Bundle savedInstanceState) {
         DataBindingUtil.setDefaultComponent(new AppDataBindingComponent());
         ViewDataBinding activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
@@ -41,14 +40,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupListUpdate() {
-        viewModel.loading.set(View.VISIBLE);
-        viewModel.fetchTweetList("modi");
         viewModel.getUpdatedTweetList().observe(this, new Observer<ArrayList<Statuses>>() {
             @Override
             public void onChanged(ArrayList<Statuses> dogBreeds) {
                 viewModel.loading.set(View.GONE);
                 if (dogBreeds.size() == 0) {
                     viewModel.showEmpty.set(View.VISIBLE);
+                    viewModel.setTweetsInAdapter(dogBreeds);
                 } else {
                     viewModel.showEmpty.set(View.GONE);
                     viewModel.setTweetsInAdapter(dogBreeds);

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import in.affle.android.tweetitsweetapplication.BuildConfig;
 import in.affle.android.tweetitsweetapplication.home.model.SearchTweetApiResponse;
+import in.affle.android.tweetitsweetapplication.utils.constants.AuthConstants;
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -27,8 +28,8 @@ public class ServerClientApi {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-            OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET);
-            consumer.setTokenWithSecret(BuildConfig.ACCESS_TOKEN, BuildConfig.TOKEN_SECRET);
+            OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(AuthConstants.CONSUMER_KEY, AuthConstants.CONSUMER_SECRET);
+            consumer.setTokenWithSecret(AuthConstants.ACCESS_TOKEN, AuthConstants.TOKEN_SECRET);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new SigningInterceptor(consumer))
@@ -47,7 +48,7 @@ public class ServerClientApi {
     }
 
     public static Gson buildGsonConverter() {
-        return new GsonBuilder().setDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy").create();
+        return new GsonBuilder().setDateFormat(AuthConstants.DATE_FORMAT).create();
     }
 
     private static GsonConverterFactory buildGsonConverterFactory() {
@@ -58,7 +59,7 @@ public class ServerClientApi {
 
         @GET(ApiEndPointUrl.SEARCH_TWEETS)
         @retrofit2.http.Headers("Content-Type: application/json")
-        Observable<Response<SearchTweetApiResponse>> getTweets(@Header("Authorization") String authorization, @Query("q") String q, @Query("result_type") String resultType);
+        Observable<Response<SearchTweetApiResponse>> getTweets(@Header("Authorization") String authorization, @Query("q") String q, @Query("result_type") String resultType, @Query("count") int count);
 
     }
 

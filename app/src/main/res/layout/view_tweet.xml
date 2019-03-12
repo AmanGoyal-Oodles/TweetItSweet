@@ -21,10 +21,10 @@
         android:background="@color/White"
         android:padding="@dimen/mar_10">
 
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:id="@+id/tweet_image_iv"
-            android:layout_width="@dimen/mar_40"
-            android:layout_height="@dimen/mar_40"
+            android:layout_width="@dimen/mar_50"
+            android:layout_height="@dimen/mar_50"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"
             app:imageUrl='@{viewModel.getTweetAt(position).user.profile_image_url}' />
@@ -40,11 +40,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                android:maxLength="15"
+                android:text="@{viewModel.getTweetAt(position).user.name}"
+                android:textStyle="bold"
+                tools:text="UserName" />
+
+            <TextView
+                android:id="@+id/tweet_handlename_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_10"
+                android:layout_toRightOf="@+id/tweet_username_tv"
+                android:ellipsize="marquee"
+                android:gravity="center_vertical"
+                android:maxLength="15"
                 android:text="@{viewModel.getTweetAt(position).user.screen_name}"
                 android:textColor="@color/Black"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="UserName" />
+                tools:text="HandleName" />
 
             <TextView
                 android:id="@+id/tweet_text_tv"
@@ -55,8 +71,66 @@
                 android:orientation="vertical"
                 android:text="@{viewModel.getTweetAt(position).text}"
                 android:textColor="@color/Black"
-                android:textSize="16sp"
+                android:textSize="@dimen/textSize14sp"
                 tools:text="Test" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tweet_text_tv"
+                android:layout_marginRight="@dimen/mar_15"
+                android:layout_marginTop="@dimen/mar_15"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/mar_25"
+                        android:layout_height="@dimen/mar_25"
+                        android:src="@drawable/retweet" />
+
+                    <TextView
+                        android:id="@+id/tweet_retweet_count_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/mar_15"
+                        android:text="@{viewModel.getTweetAt(position).retweet_count}"
+                        android:textColor="@color/Black"
+                        android:textSize="@dimen/textSize14sp"
+                        tools:text="00" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/mar_25"
+                        android:layout_height="@dimen/mar_25"
+                        android:src="@drawable/ic_favorite" />
+
+                    <TextView
+                        android:id="@+id/tweet_fav_count_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/mar_15"
+                        android:text="@{viewModel.getTweetAt(position).favorite_count}"
+                        android:textColor="@color/Black"
+                        android:textSize="@dimen/textSize14sp"
+                        tools:text="00" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

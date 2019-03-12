@@ -18,12 +18,6 @@ android {
         }
         debug {
             buildConfigField "String", "SERVER_URL", '"https://api.twitter.com/1.1/"'
-            buildConfigField "String", "IMAGE_BASE_URL", '"https://harman.devapi.ideationz.in/v1/image/"'
-            buildConfigField "String", "CONSUMER_KEY", '"Ql5CsdpJgjUnkwUafmfm0oWlq"'
-            buildConfigField "String", "CONSUMER_SECRET", '"Cgn2itYtUVLmX3yUIWb2w4En5UlqgIKIqdWwQcRTYE3BsvERUN"'
-            buildConfigField "String", "ACCESS_TOKEN", '"1103961594202148865-s6IF4CAgHF3fmOHMGXbgVCVgokR3Jo"'
-            buildConfigField "String", "TOKEN_SECRET", '"33xjfzc4BjDnbjVPhJQ4K2lZCacN7sEq53i4GsAJK46iu"'
-
         }
     }
 
@@ -49,7 +43,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation "androidx.constraintlayout:constraintlayout:$constraints_layout"
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    //implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -62,8 +55,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.6'
     implementation 'io.reactivex:rxjava:1.3.8'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    implementation 'net.danlew:android.joda:2.9.9'
-    implementation 'com.pkmmte.view:circularimageview:1.1'
 
     implementation 'se.akerfeldt:okhttp-signpost:1.1.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
