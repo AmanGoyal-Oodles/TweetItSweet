@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -13,35 +14,52 @@
             type="in.affle.android.tweetitsweetapplication.home.viewModel.HomeViewModel" />
     </data>
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingBottom="16dp"
-        android:paddingEnd="32dp"
-        android:paddingStart="32dp"
-        android:paddingTop="16dp">
+        android:layout_marginBottom="@dimen/mar_2"
+        android:background="@color/White"
+        android:padding="@dimen/mar_10">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:scaleType="centerCrop" />
-        <!--app:imageUrl='@{viewModel.images[viewModel.getDogBreedAt(position).breed]}'-->
+        <com.pkmmte.view.CircularImageView
+            android:id="@+id/tweet_image_iv"
+            android:layout_width="@dimen/mar_40"
+            android:layout_height="@dimen/mar_40"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher"
+            app:imageUrl='@{viewModel.getTweetAt(position).user.profile_image_url}' />
 
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingEnd="32dp"
-            android:paddingStart="32dp"
-            android:text="@{viewModel.getTweetAt(position).text}"
-            android:textSize="16sp"
-            tools:text="Test" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/mar_15"
+            android:layout_toRightOf="@id/tweet_image_iv">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tweet_username_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@{viewModel.getTweetAt(position).user.screen_name}"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="UserName" />
+
+            <TextView
+                android:id="@+id/tweet_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tweet_username_tv"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:text="@{viewModel.getTweetAt(position).text}"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                tools:text="Test" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </layout>

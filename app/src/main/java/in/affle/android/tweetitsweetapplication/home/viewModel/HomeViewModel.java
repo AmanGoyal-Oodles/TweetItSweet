@@ -40,7 +40,7 @@ public class HomeViewModel extends ViewModel {
         mApiResponse.fetchTweets(authorization, query);
     }
 
-    public MutableLiveData<ArrayList<Statuses>> getmTweetList() {
+    public MutableLiveData<ArrayList<Statuses>> getUpdatedTweetList() {
         return mApiResponse.getTweetData();
     }
 

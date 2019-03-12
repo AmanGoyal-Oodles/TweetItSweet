@@ -47,7 +47,6 @@ public class User {
     private boolean notifications;
     private String translator_type;
 
-
     public long getId() {
         return id;
     }
