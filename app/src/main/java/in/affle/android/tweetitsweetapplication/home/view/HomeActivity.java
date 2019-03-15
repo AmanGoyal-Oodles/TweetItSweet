@@ -1,6 +1,8 @@
 package in.affle.android.tweetitsweetapplication.home.view;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         ViewDataBinding activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         if (savedInstanceState == null) {
-            viewModel.init();
+            viewModel.initHomeViews();
         }
         activityBinding.setVariable(BR.viewModel, viewModel);
         setupListUpdate();
@@ -42,17 +44,38 @@ public class HomeActivity extends AppCompatActivity {
     private void setupListUpdate() {
         viewModel.getUpdatedTweetList().observe(this, new Observer<ArrayList<Statuses>>() {
             @Override
-            public void onChanged(ArrayList<Statuses> dogBreeds) {
+            public void onChanged(ArrayList<Statuses> tweetList) {
                 viewModel.loading.set(View.GONE);
-                if (dogBreeds.size() == 0) {
+                if (tweetList.size() == 0) {
                     viewModel.showEmpty.set(View.VISIBLE);
-                    viewModel.setTweetsInAdapter(dogBreeds);
+                    viewModel.setTweetsInAdapter(tweetList);
                 } else {
                     viewModel.showEmpty.set(View.GONE);
-                    viewModel.setTweetsInAdapter(dogBreeds);
+                    viewModel.setTweetsInAdapter(tweetList);
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.tweet_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_sort:
+                makeSort();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void makeSort() {
+        viewModel.sortTweetList();
     }
 
 }

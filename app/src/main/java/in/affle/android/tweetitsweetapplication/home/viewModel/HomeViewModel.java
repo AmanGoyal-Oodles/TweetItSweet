@@ -1,9 +1,11 @@
 package in.affle.android.tweetitsweetapplication.home.viewModel;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.MutableLiveData;
@@ -14,19 +16,23 @@ import in.affle.android.tweetitsweetapplication.home.model.ApiResponse;
 import in.affle.android.tweetitsweetapplication.home.model.Statuses;
 import in.affle.android.tweetitsweetapplication.utils.constants.AppConstants;
 import in.affle.android.tweetitsweetapplication.utils.constants.AuthConstants;
+import in.affle.android.tweetitsweetapplication.utils.util.TweetsByPopularityComparator;
 
 public class HomeViewModel extends ViewModel {
+
 
     public ObservableInt loading;
     public ObservableInt showEmpty;
     private ApiResponse mApiResponse;
     private TweetsAdapter mTweetsAdapter;
+    private ArrayList<Statuses> mTweetList;
 
-    public void init() {
+    public void initHomeViews() {
         mApiResponse = new ApiResponse();
         mTweetsAdapter = new TweetsAdapter(R.layout.view_tweet, this);
         loading = new ObservableInt(View.GONE);
         showEmpty = new ObservableInt(View.GONE);
+        mTweetList = new ArrayList<>();
     }
 
     public void fetchTweetList(String query) {
@@ -59,7 +65,14 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void setTweetsInAdapter(ArrayList<Statuses> tweetList) {
-        mTweetsAdapter.setmTweetList(tweetList);
+        mTweetList.clear();
+        mTweetList.addAll(tweetList);
+        mTweetsAdapter.setmTweetList(mTweetList);
+    }
+
+    public void sortTweetList() {
+        SortAsyncTask task = new SortAsyncTask(mTweetList);
+        task.execute(null, null, null);
     }
 
     public Statuses getTweetAt(Integer index) {
@@ -71,13 +84,33 @@ public class HomeViewModel extends ViewModel {
         return null;
     }
 
-    //logic for sort list by popularity
-    private void sortListByPopularity(ArrayList<Statuses> tweetList) {
-        ArrayList<Statuses> list = new ArrayList<>();
-        for (Statuses tweet : tweetList) {
-            if (tweet.getMetadata().getResult_type().equalsIgnoreCase("popular")) {
-                list.add(tweet);
-            }
+    public class SortAsyncTask extends AsyncTask<Void, Void, ArrayList<Statuses>> {
+
+        private ArrayList<Statuses> tweetList;
+
+        public SortAsyncTask(ArrayList<Statuses> list) {
+            tweetList = new ArrayList<>();
+            tweetList.clear();
+            tweetList.addAll(list);
+        }
+
+        @Override
+        protected ArrayList<Statuses> doInBackground(Void... param) {
+            Collections.sort(tweetList, new TweetsByPopularityComparator());
+            return tweetList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Statuses> list) {
+            super.onPostExecute(list);
+            setTweetsInAdapter(list);
+            loading.set(View.GONE);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading.set(View.VISIBLE);
         }
     }
 

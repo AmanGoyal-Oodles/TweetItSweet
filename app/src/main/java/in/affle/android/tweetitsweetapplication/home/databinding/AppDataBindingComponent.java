@@ -24,13 +24,6 @@ public class AppDataBindingComponent implements DataBindingComponent {
     @BindingAdapter("imageUrl")
     public static void bindRecyclerViewAdapter(ImageView imageView, String imageUrl) {
         if (imageUrl != null) {
-            // If we don't do this, you'll see the old image appear briefly
-            // before it's replaced with the current image
-            /*if (imageView.getTag(R.id.image_url) == null || !imageView.getTag(R.id.image_url).equals(imageUrl)) {
-                imageView.setImageBitmap(null);
-                imageView.setTag(R.id.image_url, imageUrl);
-                Glide.with(imageView).load(imageUrl).into(imageView);
-            }*/
             RequestOptions options = new RequestOptions();
             options.error(R.mipmap.ic_app_logo);
             options.circleCrop();
@@ -43,7 +36,6 @@ public class AppDataBindingComponent implements DataBindingComponent {
                     .apply(options)
                     .into(imageView);
         } else {
-            //   imageView.setTag(R.id.image_url, null);
             Glide.with(imageView)
                     .load(R.mipmap.ic_app_logo)
                     .into(imageView);
